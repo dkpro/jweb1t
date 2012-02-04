@@ -57,7 +57,7 @@ public class FrequencyDistribution<T>
 
 	public void incAll(final Iterable<T> aIterable)
 	{
-		for (T sample : aIterable) {
+		for (final T sample : aIterable) {
 			addSample(sample, 1);
 		}
 	}
@@ -109,7 +109,7 @@ public class FrequencyDistribution<T>
 	public String toString()
 	{
 		final StringBuilder buffer = new StringBuilder();
-		for (Object o : freqDist.keySet()) {
+		for (final Object o : freqDist.keySet()) {
 			buffer.append(String.valueOf(o));
 			buffer.append(" - ");
 			buffer.append(freqDist.get(o));

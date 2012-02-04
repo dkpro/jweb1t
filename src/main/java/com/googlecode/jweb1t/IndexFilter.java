@@ -24,8 +24,6 @@ import java.io.FileFilter;
  * Automatically filters out some file types that are present in the Google Web1T release, but not needed to retrieve the frequencies.
  * 
  * @author Claudio Giuliano
- * @version %I%, %G%
- * @since 1.0
  */
 class IndexFilter
 	implements FileFilter

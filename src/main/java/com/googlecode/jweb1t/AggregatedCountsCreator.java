@@ -48,7 +48,7 @@ public class AggregatedCountsCreator
 			scanner.setFilter(new IndexFilter());
 			
 			while (scanner.hasNext()) {
-				for (File file : scanner.next()) {
+				for (final File file : scanner.next()) {
 					read(file);
 				}
 			}

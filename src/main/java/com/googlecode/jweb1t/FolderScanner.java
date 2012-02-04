@@ -44,8 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * </pre>
  * 
  * @author Claudio Giuliano
- * @version %I%, %G%
- * @since 2.0
  */
 final class FolderScanner
 {

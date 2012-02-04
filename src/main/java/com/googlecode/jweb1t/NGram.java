@@ -21,8 +21,6 @@ package com.googlecode.jweb1t;
  * Represents an ngram as a combination of the ngram string and its frequency.
  * 
  * @author Claudio Giuliano
- * @version %I%, %G%
- * @since 1.0
  */
 public class NGram
 {
@@ -31,7 +29,7 @@ public class NGram
 
 	public NGram(final String aLine) throws NumberFormatException
 	{
-		String[] t = aLine.split("\t");
+		final String[] t = aLine.split("\t");
 		symbol = t[0];
 		frequency = Long.parseLong(t[1]);
 	}

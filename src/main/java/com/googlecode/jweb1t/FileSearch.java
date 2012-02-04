@@ -27,8 +27,6 @@ import java.io.RandomAccessFile;
  * Implements the actual (binary) search for an ngram in a Web1T-format file.
  *
  * @author 	Claudio Giuliano
- * @version %I%, %G%
- * @since		1.0
  */
 public class FileSearch
 {
@@ -59,14 +57,14 @@ public class FileSearch
 			//logger.info("loop: " + loop);
 			m = s + ((e - s) / 2);
 			//logger.debug(s + ", [" + m + "], " + e);
-			NGram n = read(m);
+			final NGram n = read(m);
 			if (n == null)
 			{
 				//logger.info("loop: " + loop);
 				return 0;
 			}
 
-			int c = aSymbol.compareTo(n.symbol);
+			final int c = aSymbol.compareTo(n.symbol);
 
 			if (c == 0)
 			{
@@ -103,14 +101,14 @@ public class FileSearch
 			e = raf.length();
 		}
 
-		int len = (int) (e - s);
-		int nm = (int) (m - s);
+		final int len = (int) (e - s);
+		final int nm = (int) (m - s);
 
 		//logger.debug("nm = " + nm);
 		//logger.debug("len = " + len);
 
 		raf.seek(s);
-		byte[] array = new byte[len];
+		final byte[] array = new byte[len];
 
 		raf.read(array);
 
@@ -123,7 +121,7 @@ public class FileSearch
 		}
 
 		//remember line start position
-		int ns = i + 1;
+		final int ns = i + 1;
 
 		i = nm + 1;
 
@@ -134,10 +132,10 @@ public class FileSearch
 		}
 
 		//remember line end position
-		int ne = i;
+		final int ne = i;
 
 		//copy the bytes for the current line to a new byte[]
-		byte[] curLine = new byte[ne-ns];
+		final byte[] curLine = new byte[ne-ns];
 		int index = 0;
 		for (int j=ns;j<ne;j++)
 		{
@@ -145,7 +143,7 @@ public class FileSearch
 		}
 
 		//convert the curLine-byte[] to UTF-8 String
-		String lineAsString = new String(curLine, "UTF-8");
+		final String lineAsString = new String(curLine, "UTF-8");
 
 		if (lineAsString.length() == 0) {
 			return null;

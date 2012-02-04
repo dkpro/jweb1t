@@ -72,7 +72,7 @@ public class JWeb1TSearcher
 		}
 
 		final int size = maxN - minN + 1;
-		String[] indexFiles = new String[size];
+		final String[] indexFiles = new String[size];
 		for (int i = 0; i < size; i++) {
 			final int ngramLevel = minN + i;
 			indexFiles[i] = new File(indexPath, "index-" + ngramLevel + "gms").getAbsolutePath();
