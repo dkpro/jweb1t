@@ -88,7 +88,7 @@ Package com.googlecode.jweb1t
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/Searcher.html" title="interface in com.googlecode.jweb1t">Searcher</A></B></TD>
-<TD>&nbsp;</TD>
+<TD>Interface for any classes providing frequency counts.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -101,24 +101,24 @@ Package com.googlecode.jweb1t
 <B>Class Summary</B></FONT></TH>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
-<TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/CreateAggregatedCounts.html" title="class in com.googlecode.jweb1t">CreateAggregatedCounts</A></B></TD>
-<TD>&nbsp;</TD>
-</TR>
-<TR BGCOLOR="white" CLASS="TableRowColor">
-<TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/CreateFileMap.html" title="class in com.googlecode.jweb1t">CreateFileMap</A></B></TD>
-<TD>TO DO</TD>
+<TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/AggregatedCountsCreator.html" title="class in com.googlecode.jweb1t">AggregatedCountsCreator</A></B></TD>
+<TD>Class that sequentially scans all Web1T-format files in order to compute the aggregated counts.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/FileMap.html" title="class in com.googlecode.jweb1t">FileMap</A></B></TD>
-<TD>TO DO</TD>
+<TD>Represents an index showing which ngrams (indexed by the first two characters) are to be found in which files on the disk.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/FileSearch.html" title="class in com.googlecode.jweb1t">FileSearch</A></B></TD>
-<TD>TO DO</TD>
+<TD>Implements the actual (binary) search for an ngram in a Web1T-format file.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/FrequencyDistribution.html" title="class in com.googlecode.jweb1t">FrequencyDistribution&lt;T&gt;</A></B></TD>
-<TD>Inspired by nltk.probability.FreqDist</TD>
+<TD>Represents a frequency distribution as a efficient map (inspired by nltk.probability.FreqDist).</TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+<TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/IndexCreator.html" title="class in com.googlecode.jweb1t">IndexCreator</A></B></TD>
+<TD>Creates an index showing which ngrams (indexed by the first two characters) are to be found in which files on the disk.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/JWeb1TAggregator.html" title="class in com.googlecode.jweb1t">JWeb1TAggregator</A></B></TD>
@@ -130,15 +130,15 @@ Package com.googlecode.jweb1t
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/JWeb1TSearcher.html" title="class in com.googlecode.jweb1t">JWeb1TSearcher</A></B></TD>
-<TD>&nbsp;</TD>
+<TD>Search-on-disk based implementation of the <A HREF="../../../com/googlecode/jweb1t/Searcher.html" title="interface in com.googlecode.jweb1t"><CODE>Searcher</CODE></A> interface for accessing the data in Web1T-format.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/JWeb1TSearcherInMemory.html" title="class in com.googlecode.jweb1t">JWeb1TSearcherInMemory</A></B></TD>
-<TD>&nbsp;</TD>
+<TD>Memory-based implementation of the <A HREF="../../../com/googlecode/jweb1t/Searcher.html" title="interface in com.googlecode.jweb1t"><CODE>Searcher</CODE></A> interface for accessing the data in Web1T-format.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD WIDTH="15%"><B><A HREF="../../../com/googlecode/jweb1t/NGram.html" title="class in com.googlecode.jweb1t">NGram</A></B></TD>
-<TD>&nbsp;</TD>
+<TD>Represents an ngram as a combination of the ngram string and its frequency.</TD>
 </TR>
 </TABLE>
 &nbsp;
