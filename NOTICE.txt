@@ -1,0 +1,14 @@
+Web1T: Web 1T 5-gram Searcher
+
+originally developed by Claudio Giuliano (giuliano@itc.it)
+Copyright 2007 FBK-irst 
+http://www.itc.it/
+
+currently maintained by Torsten Zesch, Oliver Ferschke and Richard Eckart de Castilho
+Copyright 2011 Technische Universität Darmstadt
+Ubiquitous Knowledge Processing (UKP) Lab
+http://www.ukp.informatik.tu-darmstadt.de/
+
+This product is an open source project on Google Code at 
+
+	http://code.google.com/p/jweb1t/
