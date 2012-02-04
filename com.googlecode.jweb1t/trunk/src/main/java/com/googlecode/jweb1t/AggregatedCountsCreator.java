@@ -23,12 +23,16 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 
 
-public class CreateAggregatedCounts
+/**
+ * Class that sequentially scans all Web1T-format files in order to compute the aggregated counts.
+ *
+ */
+public class AggregatedCountsCreator
 {
     private long aggregatedNGramCount;
     private long nrOfDifferentNGrams;
     
-	public CreateAggregatedCounts(final File aBaseDir, final String aNGramSize)
+	public AggregatedCountsCreator(final File aBaseDir, final String aNGramSize)
 	    throws IOException
 	{
 	    aggregatedNGramCount = 0;

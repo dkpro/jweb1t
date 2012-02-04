@@ -26,7 +26,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * TO DO
+ *
+ * Represents an index showing which ngrams (indexed by the first two characters) are to be found in which files on the disk.
  * 
  * @author Claudio Giuliano
  * @version %I%, %G%

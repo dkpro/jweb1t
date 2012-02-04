@@ -27,6 +27,10 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Memory-based implementation of the {@link Searcher} interface for accessing the data in Web1T-format.
+ * Requires a <b>huge</b> amount of memory for all but the tiniest ngram models.
+ */
 public class JWeb1TSearcherInMemory
 	implements Searcher
 {

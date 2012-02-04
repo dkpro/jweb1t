@@ -20,7 +20,8 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- * TO DO
+ * Filter used when reading in the Web1T-format files.
+ * Automatically filters out some file types that are present in the Google Web1T release, but not needed to retrieve the frequencies.
  * 
  * @author Claudio Giuliano
  * @version %I%, %G%

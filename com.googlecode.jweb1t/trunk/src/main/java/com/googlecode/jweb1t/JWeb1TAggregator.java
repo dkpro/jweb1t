@@ -55,7 +55,7 @@ public class JWeb1TAggregator
 			writer = new PrintWriter(new FileWriter(new File(ngramLocation, AGGREGATED_COUNTS_FILE)));
 
 			for (int i = 1; i <= maxNgramSize; i++) {
-				final CreateAggregatedCounts counter = new CreateAggregatedCounts(new File(
+				final AggregatedCountsCreator counter = new AggregatedCountsCreator(new File(
 						ngramLocation), Integer.toString(i));
 				writer.print(i);
 				writer.print("\t");

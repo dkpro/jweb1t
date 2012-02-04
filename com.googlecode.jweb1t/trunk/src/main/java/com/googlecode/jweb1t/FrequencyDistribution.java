@@ -23,7 +23,7 @@ import bak.pcj.map.ObjectKeyLongMap;
 import bak.pcj.map.ObjectKeyLongOpenHashMap;
 
 /**
- * Inspired by nltk.probability.FreqDist
+ * Represents a frequency distribution as a efficient map (inspired by nltk.probability.FreqDist).
  * 
  * @author zesch
  */

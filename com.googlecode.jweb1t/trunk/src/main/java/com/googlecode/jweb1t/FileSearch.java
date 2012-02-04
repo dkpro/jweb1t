@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * TO DO
+ * Implements the actual (binary) search for an ngram in a Web1T-format file.
  *
  * @author 	Claudio Giuliano
  * @version %I%, %G%
