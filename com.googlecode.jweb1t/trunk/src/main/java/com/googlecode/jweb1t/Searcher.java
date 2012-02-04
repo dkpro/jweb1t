@@ -21,7 +21,6 @@ import java.io.IOException;
 
 /**
  * Interface for any classes providing frequency counts.
- *
  */
 public interface Searcher
 {

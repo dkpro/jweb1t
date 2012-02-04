@@ -87,10 +87,10 @@ public class IndexCreator
 		try {
 			writer = new PrintWriter(new FileWriter(outputFile));
 
-			for (String ch : map.keySet()) {
+			for (final String ch : map.keySet()) {
 				final List<File> fileList = map.get(ch);
 				writer.print(ch);
-				for (File file : fileList) {
+				for (final File file : fileList) {
 					// store only the path relative to the index file
 					final String relative = baseDir.toURI().relativize(file.toURI()).getPath();
 					writer.print("\t" + relative);

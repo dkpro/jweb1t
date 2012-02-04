@@ -68,11 +68,6 @@ public class JWeb1TSearcherInMemory
 					final File[] files = scanner.next();
 					for (int i = 0; i < files.length; i++) {
 						fillMap(files[i], level);
-
-						// TODO remove when not needed anymore (added for cluster-test)
-						if (i % 1000 == 0) {
-							System.out.println(i + "#" + System.currentTimeMillis());
-						}
 					}
 				}
 			}

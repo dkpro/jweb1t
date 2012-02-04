@@ -30,8 +30,6 @@ import org.apache.commons.lang.StringUtils;
  * Represents an index showing which ngrams (indexed by the first two characters) are to be found in which files on the disk.
  * 
  * @author Claudio Giuliano
- * @version %I%, %G%
- * @since 1.0
  */
 public class FileMap
 {
@@ -116,7 +114,7 @@ public class FileMap
 	public String toString()
 	{
 		final StringBuilder buffer = new StringBuilder();
-		for (String key : map.keySet()) {
+		for (final String key : map.keySet()) {
 			buffer.append(key);
 			buffer.append(" - ");
 			buffer.append(StringUtils.join(map.get(key), ","));
