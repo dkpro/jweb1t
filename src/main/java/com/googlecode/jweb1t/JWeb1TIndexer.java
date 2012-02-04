@@ -50,7 +50,7 @@ public class JWeb1TIndexer
 		throws IOException
 	{
 		for (int i = 1; i <= maxNgramSize; i++) {
-			new CreateFileMap(new File(ngramLocation), Integer.toString(i));
+			new IndexCreator(new File(ngramLocation), Integer.toString(i));
 		}
 
 		// also run the aggregator

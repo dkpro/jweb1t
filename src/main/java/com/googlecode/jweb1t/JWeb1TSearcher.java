@@ -27,6 +27,10 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Search-on-disk based implementation of the {@link Searcher} interface for accessing the data in Web1T-format.
+ * Requires very little memory, but is rather slow.
+ */
 public class JWeb1TSearcher
 	implements Searcher
 {

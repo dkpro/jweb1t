@@ -18,6 +18,7 @@ package com.googlecode.jweb1t;
 
 
 /**
+ * Represents an ngram as a combination of the ngram string and its frequency.
  * 
  * @author Claudio Giuliano
  * @version %I%, %G%

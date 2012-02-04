@@ -32,11 +32,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * TO DO
+ * Creates an index showing which ngrams (indexed by the first two characters) are to be found in which files on the disk.
  * 
  * @author Claudio Giuliano
  */
-public class CreateFileMap
+public class IndexCreator
 {
 	private final Log logger = LogFactory.getLog(this.getClass());
 
@@ -44,7 +44,7 @@ public class CreateFileMap
 
 	private final File baseDir;
 
-	public CreateFileMap(final File aBaseDir, final String aNGramSize)
+	public IndexCreator(final File aBaseDir, final String aNGramSize)
 		throws IOException
 	{
 		map = new HashMap<String, List<File>>();

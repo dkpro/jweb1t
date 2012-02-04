@@ -19,6 +19,10 @@ package com.googlecode.jweb1t;
 
 import java.io.IOException;
 
+/**
+ * Interface for any classes providing frequency counts.
+ *
+ */
 public interface Searcher
 {
 	long getFrequency(String aPhrase)
