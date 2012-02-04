@@ -471,6 +471,7 @@
 										<exclude>src/test/resources/**/*</exclude>
 										<exclude>.pmd</exclude>
 										<exclude>scripts/build.xml</exclude>
+										<exclude>apidocs/**/*</exclude>
 									</excludes>
 								</configuration>
 							</execution>
