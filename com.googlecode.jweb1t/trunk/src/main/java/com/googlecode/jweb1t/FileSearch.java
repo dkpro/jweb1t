@@ -133,13 +133,11 @@ public class FileSearch
 		}
 		
 		String[] ngram = new String[2];
-		for (int offset=0; offset<lineAsString.length(); offset++) {
-		    // compare with tab character
-		    if (lineAsString.charAt(offset) == '\u0009') {
-		        ngram[0] = lineAsString.substring(0, offset);
-		        ngram[1] = lineAsString.substring(offset+1, lineAsString.length());
-		        return ngram;
-		    }
+		int tabOffset = lineAsString.indexOf('\t');
+		if (tabOffset != -1) {
+            ngram[0] = lineAsString.substring(0, tabOffset);
+            ngram[1] = lineAsString.substring(tabOffset+1, lineAsString.length());
+            return ngram;
 		}
 		
 		return null;
