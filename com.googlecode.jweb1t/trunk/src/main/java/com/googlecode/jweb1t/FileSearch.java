@@ -22,7 +22,7 @@ import java.io.RandomAccessFile;
 /**
  * Implements the actual (binary) search for an ngram in a Web1T-format file.
  *
- * @author 	Claudio Giuliano
+ * @author 	Claudio Giuliano, Torsten Zesch
  */
 public class FileSearch
 {
@@ -31,7 +31,6 @@ public class FileSearch
 	public FileSearch(final File file) throws IOException
 	{
 		raf = new RandomAccessFile(file, "r");
-
 	}
 
 	public void close() throws IOException
@@ -41,99 +40,89 @@ public class FileSearch
 
 	public long getFreq(final String aSymbol) throws IOException
 	{
-		//logger.info("searching '" + t + "' in " + file.getName());
-		long s = 0;
-		long m = raf.length();
-		long e = raf.length();
-//		int loop = 0;
-		while (e > (s + 1))
+
+		long start = 0;
+		long pos = raf.length();
+		long end = raf.length();
+
+		while (end > (start + 1))
 		{
-//			++loop;
-			//logger.info("loop: " + loop);
-			m = s + ((e - s) / 2);
-			//logger.debug(s + ", [" + m + "], " + e);
-			final String[] ngram = read(m);
-			if (ngram == null)
-			{
-				//logger.info("loop: " + loop);
+			pos = start + ((end - start) / 2);
+
+			final String[] ngram = read(pos);
+			
+            // FIXME this seems to shortcut a bit too early if we haven't found the right position yet
+			if (ngram == null) {
 				return 0;
 			}
 
 			final int c = aSymbol.compareTo(ngram[0]);
 
-			if (c == 0)
-			{
-				//logger.debug(t + " == " + n.s + " (" + c + ")");
-				//logger.info("loops: " + loop);
+			if (c == 0) {
 				return Long.parseLong(ngram[1]);
 			}
-			else if (c > 0)
-			{
-				//logger.debug(t + " > " + n.s + " (" + c + ")");
-				s = m;
+			else if (c > 0) {
+				start = pos;
 			}
-			else
-			{
-				//logger.debug(t + " < " + n.s + " (" + c + ")");
-				e = m;
+			else {
+				end = pos;
 			}
 
 		}
 
-		//logger.info("loops: " + loop);
 		return 0;
  	}
 
-	public String[] read(final long m) throws IOException
+	public String[] read(final long pos) throws IOException
 	{
-		long s = m - 50;
-		if (s < 0) {
-			s = 0;
+	    // span a window around the approximated position
+		long start = pos - 200;
+		if (start < 0) {
+			start = 0;
 		}
-		long e = m + 50;
-		if (e > raf.length()) {
-			e = raf.length();
+		long end = pos + 200;
+		if (end > raf.length()) {
+			end = raf.length();
 		}
 
-		final int len = (int) (e - s);
-		final int nm = (int) (m - s);
+		final int len = (int) (end - start);
+		final int newPos = (int) (pos - start);
 
-		//logger.debug("nm = " + nm);
-		//logger.debug("len = " + len);
+		raf.seek(start);
+		final byte[] window = new byte[len];
 
-		raf.seek(s);
-		final byte[] array = new byte[len];
+		raf.read(window);
 
-		raf.read(array);
+		int i = newPos;
 
-		int i = nm;
-
+		// search for the beginning and end of the file
+		
 		//Go back to the beginning of the line
-		while ((i >= 0) && ((char) array[i]) != '\n')
+		while ((i >= 0) && ((char) window[i]) != '\n')
 		{
 			i--;
 		}
 
 		//remember line start position
-		final int ns = i + 1;
+		final int newStart = i + 1;
 
-		i = nm + 1;
+		i = newPos + 1;
 
 		//go to end of line
-		while ((i < array.length) && ((char) array[i]) != '\n')
+		while ((i < window.length) && ((char) window[i]) != '\n')
 		{
 			i++;
 		}
 
 		//remember line end position
-		final int ne = i;
+		final int newEnd = i;
 
 		//copy the bytes for the current line to a new byte[]
-		final byte[] curLine = new byte[ne-ns];
+		final byte[] curLine = new byte[newEnd-newStart];
 		int index = 0;
-		for (int j=ns;j<ne;j++)
+		for (int j=newStart;j<newEnd;j++)
 		{
-			curLine[index++]=array[j];
+			curLine[index++]=window[j];
 		}
 
 		//convert the curLine-byte[] to UTF-8 String
@@ -143,6 +132,16 @@ public class FileSearch
 			return null;
 		}
 		
-		return lineAsString.split("\\t+");
+		String[] ngram = new String[2];
+		for (int offset=0; offset<lineAsString.length(); offset++) {
+		    // compare with tab character
+		    if (lineAsString.charAt(offset) == '\u0009') {
+		        ngram[0] = lineAsString.substring(0, offset);
+		        ngram[1] = lineAsString.substring(offset+1, lineAsString.length());
+		        return ngram;
+		    }
+		}
+		
+		return null;
 	}
 }
