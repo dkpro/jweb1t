@@ -1,9 +1,5 @@
 /*
- * This class is based on FileSearch.java in
- * the jWeb1T library by FBK-irst http://www.itc.it/
- * The read(long m) method has been changed to be UTF-8 conform.
- *
- * Original licence information:
+ * Copyright 2007 FBK-irst http://www.itc.it/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,13 +32,12 @@ public class FileSearch
 	{
 		raf = new RandomAccessFile(file, "r");
 
-	} // end constructor
+	}
 
-	//
 	public void close() throws IOException
 	{
 		raf.close();
-	} // end close
+	}
 
 	public long getFreq(final String aSymbol) throws IOException
 	{
@@ -57,20 +52,20 @@ public class FileSearch
 			//logger.info("loop: " + loop);
 			m = s + ((e - s) / 2);
 			//logger.debug(s + ", [" + m + "], " + e);
-			final NGram n = read(m);
-			if (n == null)
+			final String[] ngram = read(m);
+			if (ngram == null)
 			{
 				//logger.info("loop: " + loop);
 				return 0;
 			}
 
-			final int c = aSymbol.compareTo(n.symbol);
+			final int c = aSymbol.compareTo(ngram[0]);
 
 			if (c == 0)
 			{
 				//logger.debug(t + " == " + n.s + " (" + c + ")");
 				//logger.info("loops: " + loop);
-				return n.frequency;
+				return Long.parseLong(ngram[1]);
 			}
 			else if (c > 0)
 			{
@@ -83,14 +78,13 @@ public class FileSearch
 				e = m;
 			}
 
-		} // end while
+		}
 
 		//logger.info("loops: " + loop);
 		return 0;
- 	} // end getFreq
+ 	}
 
-	//
-	public NGram read(final long m) throws IOException
+	public String[] read(final long m) throws IOException
 	{
 		long s = m - 50;
 		if (s < 0) {
@@ -148,7 +142,7 @@ public class FileSearch
 		if (lineAsString.length() == 0) {
 			return null;
 		}
-
-		return new NGram(lineAsString);
+		
+		return lineAsString.split("\\t+");
 	}
 }
