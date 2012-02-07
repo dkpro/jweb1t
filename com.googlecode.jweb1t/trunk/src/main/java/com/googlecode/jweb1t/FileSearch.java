@@ -26,6 +26,7 @@ import java.io.RandomAccessFile;
  */
 public class FileSearch
 {
+	private int windowSize = 200;
 	private final RandomAccessFile raf;
 
 	public FileSearch(final File file) throws IOException
@@ -33,6 +34,16 @@ public class FileSearch
 		raf = new RandomAccessFile(file, "r");
 	}
 
+	public void setWindowSize(final int aWindowSize)
+	{
+		windowSize = aWindowSize;
+	}
+	
+	public int getWindowSize()
+	{
+		return windowSize;
+	}
+	
 	public void close() throws IOException
 	{
 		raf.close();
@@ -73,14 +84,14 @@ public class FileSearch
 		return 0;
  	}
 
-	public String[] read(final long pos) throws IOException
+	public String[] read(final long pos) throws IOException //NOPMD
 	{
 	    // span a window around the approximated position
-		long start = pos - 200;
+		long start = pos - windowSize;
 		if (start < 0) {
 			start = 0;
 		}
-		long end = pos + 200;
+		long end = pos + windowSize;
 		if (end > raf.length()) {
 			end = raf.length();
 		}
@@ -96,50 +107,47 @@ public class FileSearch
 		int i = newPos;
 
 		// search for the beginning and end of the file
-		
-		//Go back to the beginning of the line
-		while ((i >= 0) && ((char) window[i]) != '\n')
-		{
+
+		// Go back to the beginning of the line
+		while ((i >= 0) && ((char) window[i]) != '\n') {
 			i--;
 		}
 
-		//remember line start position
+		// remember line start position
 		final int newStart = i + 1;
 
 		i = newPos + 1;
 
-		//go to end of line
-		while ((i < window.length) && ((char) window[i]) != '\n')
-		{
+		// go to end of line
+		while ((i < window.length) && ((char) window[i]) != '\n') {
 			i++;
 		}
 
-		//remember line end position
+		// remember line end position
 		final int newEnd = i;
 
-		//copy the bytes for the current line to a new byte[]
-		final byte[] curLine = new byte[newEnd-newStart];
+		// copy the bytes for the current line to a new byte[]
+		final byte[] curLine = new byte[newEnd - newStart];
 		int index = 0;
-		for (int j=newStart;j<newEnd;j++)
-		{
-			curLine[index++]=window[j];
+		for (int j = newStart; j < newEnd; j++) {
+			curLine[index++] = window[j];
 		}
 
-		//convert the curLine-byte[] to UTF-8 String
+		// convert the curLine-byte[] to UTF-8 String
 		final String lineAsString = new String(curLine, "UTF-8");
 
 		if (lineAsString.length() == 0) {
 			return null;
 		}
-		
+
 		String[] ngram = new String[2];
-		int tabOffset = lineAsString.indexOf('\t');
+		final int tabOffset = lineAsString.indexOf('\t');
 		if (tabOffset != -1) {
-            ngram[0] = lineAsString.substring(0, tabOffset);
-            ngram[1] = lineAsString.substring(tabOffset+1, lineAsString.length());
-            return ngram;
+			ngram[0] = lineAsString.substring(0, tabOffset);
+			ngram[1] = lineAsString.substring(tabOffset + 1, lineAsString.length());
+			return ngram;
 		}
-		
+
 		return null;
 	}
 }
