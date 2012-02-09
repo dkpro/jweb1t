@@ -134,7 +134,7 @@ public class FileSearch
 			curLine[index++] = window[j];
 		}
 
-		// convert the curLine-byte[] to UTF-8 String
+		// convert the curLine-byte[] to String
 		final String lineAsString = new String(curLine, encoding);
 
 		if (lineAsString.length() == 0) {
