@@ -28,7 +28,8 @@ public class FileSearch
 {
 	private int windowSize = 200;
 	private final RandomAccessFile raf;
-	private final String encoding = "UTF-8";
+	private final String ENCODING = "UTF-8";
+	private final char EOL = '\n';
 
 	public FileSearch(final File file) throws IOException
 	{
@@ -110,7 +111,7 @@ public class FileSearch
 		// search for the beginning and end of the file
 
 		// Go back to the beginning of the line
-		while ((i >= 0) && ((char) window[i]) != '\n') {
+		while ((i >= 0) && ((char) window[i]) != EOL) {
 			i--;
 		}
 
@@ -120,7 +121,7 @@ public class FileSearch
 		i = newPos + 1;
 
 		// go to end of line
-		while ((i < window.length) && ((char) window[i]) != '\n') {
+		while ((i < window.length) && ((char) window[i]) != EOL) {
 			i++;
 		}
 
@@ -135,7 +136,7 @@ public class FileSearch
 		}
 
 		// convert the curLine-byte[] to String
-		final String lineAsString = new String(curLine, encoding);
+		final String lineAsString = new String(curLine, ENCODING);
 
 		if (lineAsString.length() == 0) {
 			return null;
