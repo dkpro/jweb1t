@@ -28,6 +28,7 @@ public class FileSearch
 {
 	private int windowSize = 200;
 	private final RandomAccessFile raf;
+	private final String encoding = "UTF-8";
 
 	public FileSearch(final File file) throws IOException
 	{
@@ -38,12 +39,12 @@ public class FileSearch
 	{
 		windowSize = aWindowSize;
 	}
-	
+
 	public int getWindowSize()
 	{
 		return windowSize;
 	}
-	
+
 	public void close() throws IOException
 	{
 		raf.close();
@@ -61,7 +62,7 @@ public class FileSearch
 			pos = start + ((end - start) / 2);
 
 			final String[] ngram = read(pos);
-			
+
             // FIXME this seems to shortcut a bit too early if we haven't found the right position yet
 			if (ngram == null) {
 				return 0;
@@ -134,7 +135,7 @@ public class FileSearch
 		}
 
 		// convert the curLine-byte[] to UTF-8 String
-		final String lineAsString = new String(curLine, "UTF-8");
+		final String lineAsString = new String(curLine, encoding);
 
 		if (lineAsString.length() == 0) {
 			return null;
