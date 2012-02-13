@@ -18,6 +18,7 @@
 package com.googlecode.jweb1t;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Interface for any classes providing frequency counts.
@@ -27,7 +28,13 @@ public interface Searcher
 	long getFrequency(String aPhrase)
 		throws IOException;
 
-	long getNrOfNgrams(int aNGramSize);
+    long getFrequency(List<String> aPhrase)
+        throws IOException;
+
+    long getFrequency(String[] aPhrase)
+        throws IOException;
+
+    long getNrOfNgrams(int aNGramSize);
 
 	long getNrOfDistinctNgrams(int aNGramSize);
 }
