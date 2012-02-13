@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -122,7 +122,7 @@ public class JWeb1TSearcherInMemory
 
 	}
 
-    public long getFrequency(List<String> aPhrase)
+    public long getFrequency(Collection<String> aPhrase)
         throws IOException
     {
         return getFrequency(StringUtils.join(aPhrase, " "));

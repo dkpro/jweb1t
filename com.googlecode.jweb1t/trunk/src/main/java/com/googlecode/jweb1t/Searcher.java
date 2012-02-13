@@ -18,7 +18,7 @@
 package com.googlecode.jweb1t;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Interface for any classes providing frequency counts.
@@ -28,7 +28,7 @@ public interface Searcher
 	long getFrequency(String aPhrase)
 		throws IOException;
 
-    long getFrequency(List<String> aPhrase)
+    long getFrequency(Collection<String> aPhrase)
         throws IOException;
 
     long getFrequency(String[] aPhrase)
