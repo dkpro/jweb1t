@@ -22,8 +22,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -120,7 +122,19 @@ public class JWeb1TSearcherInMemory
 
 	}
 
-	/*
+    public long getFrequency(List<String> aPhrase)
+        throws IOException
+    {
+        return getFrequency(StringUtils.join(aPhrase, " "));
+    }
+    
+    public long getFrequency(String[] aPhrase)
+        throws IOException
+    {
+        return getFrequency(StringUtils.join(aPhrase, " "));
+    }
+
+    /*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.googlecode.jweb1t.Searcher#getFrequency(java.lang.String)
