@@ -25,13 +25,10 @@ import java.util.Collection;
  */
 public interface Searcher
 {
-	long getFrequency(String aPhrase)
+	long getFrequency(String... aPhrase)
 		throws IOException;
 
     long getFrequency(Collection<String> aPhrase)
-        throws IOException;
-
-    long getFrequency(String[] aPhrase)
         throws IOException;
 
     long getNrOfNgrams(int aNGramSize);

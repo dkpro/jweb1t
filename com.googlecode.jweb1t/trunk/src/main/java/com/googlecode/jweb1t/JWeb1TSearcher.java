@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
 public class JWeb1TSearcher
 	implements Searcher
 {
-	private final Log logger = LogFactory.getLog(JWeb1TSearcher.class);
+	private final static Log LOG = LogFactory.getLog(JWeb1TSearcher.class);
 
 	// map with index files
 	private Map<Integer, FileMap> indexMap;
@@ -126,40 +126,35 @@ public class JWeb1TSearcher
 		}
 	}
 
-    public long getFrequency(Collection<String> aPhrase)
+    public long getFrequency(final Collection<String> aPhrase)
         throws IOException
     {
         return getFrequency(StringUtils.join(aPhrase, " "));
     }
     
-    public long getFrequency(String[] aPhrase)
+    public long getFrequency(final String... aPhrase)
         throws IOException
     {
-        return getFrequency(StringUtils.join(aPhrase, " "));
-    }
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.googlecode.jweb1t.Searcher#getFrequency(java.lang.String)
-	 */
-	public long getFrequency(final String aPhrase)
-		throws IOException
-	{
-		final String phrase = aPhrase.trim();
+    	if (aPhrase == null || aPhrase.length == 0) {
+    		return 0;
+    	}
+    	
+        final String phrase = StringUtils.join(aPhrase, " ").trim();
 
 		if (phrase.length() == 0) {
 			return 0;
 		}
 
-		logger.debug("search for : \"" + phrase + "\"");
-
 		final String[] tokens = phrase.split("\\s+");
-		logger.debug("length: " + tokens.length);
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("search for : \"" + phrase + "\"");
+			LOG.debug("length: " + tokens.length);
+		}
 
 		final FileMap map = indexMap.get(Integer.valueOf(tokens.length));
 		if (map == null) {
-			logger.fatal(tokens.length + "-gram index not found");
+			LOG.fatal(tokens.length + "-gram index not found");
 			return 0;
 		}
 
@@ -175,7 +170,7 @@ public class JWeb1TSearcher
 		final String[] file = map.get(symbol);
 
 		if (file == null) {
-			logger.warn("Could not find nGram-File for the symbol: " + symbol);
+			LOG.warn("Could not find nGram-File for the symbol: " + symbol);
 			return -1;
 		}
 
@@ -190,7 +185,7 @@ public class JWeb1TSearcher
 		}
 
 		for (int i = 0; i < file.length; i++) {
-			logger.debug(i + ":" + file[i]);
+			LOG.debug(i + ":" + file[i]);
 
 			final FileSearch fileSearch = new FileSearch(new File(file[i]));
 
@@ -198,15 +193,15 @@ public class JWeb1TSearcher
 
 			if (frequency != 0) {
 				fileSearch.close();
-				logger.debug("Frequency: " + frequency);
+				LOG.debug("Frequency: " + frequency);
 				return frequency;
 			}
 			fileSearch.close();
 		}
-		logger.debug("Frequency: 0");
+		LOG.debug("Frequency: 0");
 		return 0;
-	}
-
+    }
+	
 	public long getNrOfNgrams(final int aNGramSize)
 	{
 		final Long count = ngramCountMap.get(aNGramSize);
