@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
 public class JWeb1TSearcherInMemory
 	implements Searcher
 {
-	private final Log logger = LogFactory.getLog(JWeb1TSearcherInMemory.class);
+	private final static Log LOG = LogFactory.getLog(JWeb1TSearcherInMemory.class);
 
 	private final Map<Integer, FrequencyDistribution<String>> ngramLevelMap;
 
@@ -122,36 +122,31 @@ public class JWeb1TSearcherInMemory
 
 	}
 
-    public long getFrequency(Collection<String> aPhrase)
+    public long getFrequency(final Collection<String> aPhrase)
         throws IOException
     {
         return getFrequency(StringUtils.join(aPhrase, " "));
     }
     
-    public long getFrequency(String[] aPhrase)
+    public long getFrequency(final String... aPhrase)
         throws IOException
     {
-        return getFrequency(StringUtils.join(aPhrase, " "));
-    }
-
-    /*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.googlecode.jweb1t.Searcher#getFrequency(java.lang.String)
-	 */
-	public long getFrequency(final String aPhrase)
-		throws IOException
-	{
-		final String phrase = aPhrase.trim();
+    	if (aPhrase == null || aPhrase.length == 0) {
+    		return 0;
+    	}
+    	
+        final String phrase = StringUtils.join(aPhrase, " ").trim();
 
 		if (phrase.length() == 0) {
 			return 0;
 		}
 
-		logger.debug("search for : \"" + phrase + "\"");
-
 		final int ngramLevel = phrase.split("\\s+").length;
-		logger.debug("length: " + ngramLevel);
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("search for : \"" + phrase + "\"");
+			LOG.debug("length: " + ngramLevel);
+		}
 
 		if (!ngramLevelMap.containsKey(ngramLevel)) {
 			return 0;
@@ -162,7 +157,7 @@ public class JWeb1TSearcherInMemory
 		}
 
 		return ngramLevelMap.get(ngramLevel).getCount(phrase);
-	}
+    }
 
 	public long getNrOfNgrams(final int aNGramSize)
 	{
