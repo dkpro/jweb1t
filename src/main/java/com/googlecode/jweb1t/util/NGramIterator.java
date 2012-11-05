@@ -89,11 +89,9 @@ public class NGramIterator
             if (line != null) {
                 final String[] parts = line.split("\t");
                 
-                if (parts.length != 2) {
-                    System.err.println("Ill-formed line: " + line);
+                if (parts.length > 0) {
+                    nextString = parts[0];
                 }
-                
-                nextString = parts[0];
             }
             else {
                 reader.close();
