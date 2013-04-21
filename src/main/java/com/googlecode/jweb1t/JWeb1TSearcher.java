@@ -170,7 +170,7 @@ public class JWeb1TSearcher
 		final String[] file = map.get(symbol);
 
 		if (file == null) {
-			LOG.warn("Could not find nGram-File for the symbol: " + symbol);
+			LOG.debug("Could not find nGram-File for the symbol: " + symbol);
 			return -1;
 		}
 
