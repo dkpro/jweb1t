@@ -51,4 +51,14 @@ public class JWeb1TSearcherTest
 		assertEquals(106, web1t.getFrequency("influx takes"));
 		assertEquals(69, web1t.getFrequency("frist will"));
 	}
+	
+	@Test
+	public void testMinMaxParameters()
+		throws IOException
+	{
+		final Searcher web1t = new JWeb1TSearcher(new File("src/test/resources/"), 2, 2);
+		assertEquals(106, web1t.getFrequency("influx takes"));
+		assertEquals(0, web1t.getFrequency("Nilmeier"));
+	}
+	
 }
