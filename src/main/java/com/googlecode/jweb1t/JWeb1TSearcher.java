@@ -55,7 +55,7 @@ public class JWeb1TSearcher
 			initialize(new File(indexFiles[0]).getParentFile());
 		}
         for (int i = 1; i <= indexFiles.length; i++) {
-            addToIndexMap(indexFiles[i-1], i);
+            addToIndexMap(new File(indexFiles[i-1]), i);
         }
 	}
 
@@ -79,12 +79,8 @@ public class JWeb1TSearcher
 			throw new IOException("Wrong parameters.");
 		}
 
-		final int size = maxN - minN + 1;
-		final String[] indexFiles = new String[size];
-		for (int i = 0; i < size; i++) {
-			final int ngramLevel = minN + i;
-			indexFiles[i] = new File(indexPath, "index-" + ngramLevel + "gms").getAbsolutePath();
-			addToIndexMap(indexFiles[i], ngramLevel);
+		for (int i = minN; i <= maxN; i++) {
+			addToIndexMap(new File(indexPath, "index-" + i + "gms"), i);
 		}
 	}
 
@@ -118,14 +114,13 @@ public class JWeb1TSearcher
 
 	}
 
-	private void addToIndexMap(final String indexFile, final int level)
+	private void addToIndexMap(final File indexFile, final int level)
 		throws IOException
 	{
-		final File file = new File(indexFile);
-		if (!(file.exists())) {
-			throw new IOException("Index file " + file.getPath() + " was not found");
+		if (!(indexFile.exists())) {
+			throw new IOException("Index file " + indexFile.getPath() + " was not found");
 		}
-		indexMap.put(level, new FileMap(file));
+		indexMap.put(level, new FileMap(indexFile));
 	}
 
     public long getFrequency(final Collection<String> aPhrase)
