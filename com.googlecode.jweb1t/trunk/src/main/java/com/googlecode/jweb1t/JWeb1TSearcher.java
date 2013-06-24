@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * Requires very little memory, but is rather slow.
  */
 public class JWeb1TSearcher
-implements Searcher
+	implements Searcher
 {
 	private final static Log LOG = LogFactory.getLog(JWeb1TSearcher.class);
 
@@ -44,22 +44,20 @@ implements Searcher
 	private Map<Integer, Long> ngramCountMap;
 	private Map<Integer, Long> ngramDistinctCountMap;
 
+	/**
+	 * @param indexFiles Index files need to be listed in ascending order, starting with 1-grams, and without gap until the largest index. E.g. index1,index2,index3. You cannot use "index1,index3" or "index2,index3".
+	 * @throws IOException
+	 */
 	public JWeb1TSearcher(final String... indexFiles)
-			throws IOException
-			{
+		throws IOException
+	{
 		if (indexFiles.length > 0) {
 			initialize(new File(indexFiles[0]).getParentFile());
 		}
-		indexMap = new HashMap<Integer, FileMap>();
-		for (int i = 1; i <= indexFiles.length; i++) {
-			final File file = new File(indexFiles[i - 1]);
-			if (!(file.exists())) {
-				throw new IOException("Index file " + file.getPath() + " was not found");
-			}
-			final FileMap fileMap = new FileMap(file);
-			indexMap.put(i, fileMap);
-		}
-			}
+        for (int i = 1; i <= indexFiles.length; i++) {
+            addToIndexMap(indexFiles[i-1], i);
+        }
+	}
 
 	/**
 	 * Try to deduce the index files from the given path.
@@ -73,28 +71,27 @@ implements Searcher
 	 * @throws IOException
 	 */
 	public JWeb1TSearcher(final File indexPath, final int minN, final int maxN)
-			throws IOException
-			{
+		throws IOException
+	{
 		initialize(indexPath);
 
 		if (minN < 0 || maxN < 0 || minN > maxN) {
 			throw new IOException("Wrong parameters.");
 		}
 
-		indexMap = new HashMap<Integer, FileMap>();
-
-		for (int i = minN; i <= maxN; i++) {
-			final File file = new File(indexPath, "index-" + i + "gms");
-			if (!(file.exists())) {
-				throw new IOException("Index file " + file.getPath() + " was not found");
-			}
-			indexMap.put(i, new FileMap(file));	
+		final int size = maxN - minN + 1;
+		final String[] indexFiles = new String[size];
+		for (int i = 0; i < size; i++) {
+			final int ngramLevel = minN + i;
+			indexFiles[i] = new File(indexPath, "index-" + ngramLevel + "gms").getAbsolutePath();
+			addToIndexMap(indexFiles[i], ngramLevel);
 		}
-			}
+	}
 
 	private void initialize(final File baseDir)
-			throws NumberFormatException, IOException
-			{
+		throws NumberFormatException, IOException
+	{
+	    indexMap = new HashMap<Integer, FileMap>();
 		ngramCountMap = new HashMap<Integer, Long>();
 		ngramDistinctCountMap = new HashMap<Integer, Long>();
 
@@ -119,22 +116,32 @@ implements Searcher
 			lineReader.close();
 		}
 
-			}
+	}
 
-	public long getFrequency(final Collection<String> aPhrase)
-			throws IOException
-			{
-		return getFrequency(StringUtils.join(aPhrase, " "));
-			}
-
-	public long getFrequency(final String... aPhrase)
-			throws IOException
-			{
-		if (aPhrase == null || aPhrase.length == 0) {
-			return 0;
+	private void addToIndexMap(final String indexFile, final int level)
+		throws IOException
+	{
+		final File file = new File(indexFile);
+		if (!(file.exists())) {
+			throw new IOException("Index file " + file.getPath() + " was not found");
 		}
+		indexMap.put(level, new FileMap(file));
+	}
 
-		final String phrase = StringUtils.join(aPhrase, " ").trim();
+    public long getFrequency(final Collection<String> aPhrase)
+        throws IOException
+    {
+        return getFrequency(StringUtils.join(aPhrase, " "));
+    }
+    
+    public long getFrequency(final String... aPhrase)
+        throws IOException
+    {
+    	if (aPhrase == null || aPhrase.length == 0) {
+    		return 0;
+    	}
+    	
+        final String phrase = StringUtils.join(aPhrase, " ").trim();
 
 		if (phrase.length() == 0) {
 			return 0;
@@ -195,8 +202,8 @@ implements Searcher
 		}
 		LOG.debug("Frequency: 0");
 		return 0;
-			}
-
+    }
+	
 	public long getNrOfNgrams(final int aNGramSize)
 	{
 		final Long count = ngramCountMap.get(aNGramSize);

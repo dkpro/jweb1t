@@ -31,8 +31,10 @@ public class JWeb1TSearcherTest
 	public void testIndexFiles()
 		throws IOException
 	{
-		final Searcher web1t = new JWeb1TSearcher("src/test/resources/index-1gms",
-				"src/test/resources/index-2gms");
+		final Searcher web1t = new JWeb1TSearcher(
+		        "src/test/resources/index-1gms",
+				"src/test/resources/index-2gms"
+		);
 
 		assertEquals(2147436244l, web1t.getFrequency("!"));
 		assertEquals(528, web1t.getFrequency("Nilmeier"));
@@ -54,11 +56,10 @@ public class JWeb1TSearcherTest
 	
 	@Test
 	public void testMinMaxParameters()
-		throws IOException
+	        throws IOException
 	{
-		final Searcher web1t = new JWeb1TSearcher(new File("src/test/resources/"), 2, 2);
-		assertEquals(106, web1t.getFrequency("influx takes"));
-		assertEquals(0, web1t.getFrequency("Nilmeier"));
+	        final Searcher web1t = new JWeb1TSearcher(new File("src/test/resources/"), 2, 2);
+	        assertEquals(0, web1t.getFrequency("Nilmeier"));
+	        assertEquals(106, web1t.getFrequency("influx takes"));
 	}
-	
 }
