@@ -72,7 +72,7 @@ public class FileSearch
 			final int c = aSymbol.compareTo(ngram[0]);
 
 			if (c == 0) {
-				return Long.parseLong(ngram[1]);
+				return Long.parseLong(ngram[1].trim());
 			}
 			else if (c > 0) {
 				start = pos;
