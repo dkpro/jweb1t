@@ -28,7 +28,7 @@
 	<packaging>jar</packaging>
 	<name>jWeb1T</name>
 	<description>jWeb1T is an open source Java tool for efficiently searching n-gram data in the Web 1T 5-gram corpus format. It is based on a binary search algorithm that finds the n-grams and returns their frequency counts in logarithmic time. As the corpus is stored in many files a simple index is used to retrieve the files containing the n-grams.</description>
-	<url>http://code.google.com/p/jweb1t/</url>
+	<url>https://dkpro.github.io/jweb1t</url>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -37,9 +37,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://jweb1t.googlecode.com/svn/com.googlecode.jweb1t/trunk</connection>
-		<developerConnection>scm:svn:https://jweb1t.googlecode.com/svn/com.googlecode.jweb1t/trunk</developerConnection>
-		<url>http://jweb1t.googlecode.com/svn/</url>
+		<connection>scm:git:https://github.com/dkpro/jweb1t</connection>
+		<developerConnection>scm:git:https://github.com/dkpro/jweb1t</developerConnection>
+		<url>https://github.com/dkpro/jweb1t</url>
 	</scm>
 	<prerequisites>
 		<maven>3.0</maven>
@@ -480,4 +480,8 @@
 			</build>
 		</profile>
 	</profiles>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/dkpro/jweb1t/issues</url>
+	</issueManagement>
 </project>
