@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Scans recursively a directory. Successive calls to the {@link #next()} method return successive
+ * Scans recursively a directory. Successive calls to the next() method return successive
  * arrays of objects {@link File}.
  * <p>
  * The following code fragment, in which {@code root} is the starting directory, illustrates how to
@@ -56,7 +56,7 @@ final class FolderScanner
 	/**
 	 * Create a folder scanner.
 	 * 
-	 * @param root
+	 * @param aRoot
 	 *            the root directory.
 	 */
 	public FolderScanner(final File aRoot)
@@ -69,7 +69,7 @@ final class FolderScanner
 	/**
 	 * Sets a file filter for this scanner
 	 * 
-	 * @param filter
+	 * @param aFilter
 	 *            a file filter.
 	 */
 	public void setFilter(final FileFilter aFilter)

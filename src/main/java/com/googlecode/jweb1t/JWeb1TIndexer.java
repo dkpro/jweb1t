@@ -44,7 +44,7 @@ public class JWeb1TIndexer
 	/**
 	 * Run this method to create the indexes.
 	 * 
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	public void create()
 		throws IOException
