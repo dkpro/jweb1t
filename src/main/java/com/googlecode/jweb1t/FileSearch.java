@@ -15,6 +15,8 @@
  */
 package com.googlecode.jweb1t;
 
+import static com.googlecode.jweb1t.Constants.ENCODING;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -22,13 +24,12 @@ import java.io.RandomAccessFile;
 /**
  * Implements the actual (binary) search for an ngram in a Web1T-format file.
  *
- * @author 	Claudio Giuliano, Torsten Zesch
+ * @author Claudio Giuliano, Torsten Zesch
  */
 public class FileSearch
 {
 	private int windowSize = 200;
 	private final RandomAccessFile raf;
-	private final String ENCODING = "UTF-8";
 	private final char EOL = '\n';
 
 	public FileSearch(final File file) throws IOException

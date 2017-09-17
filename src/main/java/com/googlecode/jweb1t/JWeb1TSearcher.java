@@ -18,8 +18,9 @@
 package com.googlecode.jweb1t;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.Collection;
 import java.util.HashMap;
@@ -84,35 +85,34 @@ public class JWeb1TSearcher
 		}
 	}
 
-	private void initialize(final File baseDir)
-		throws NumberFormatException, IOException
-	{
-	    indexMap = new HashMap<Integer, FileMap>();
-		ngramCountMap = new HashMap<Integer, Long>();
-		ngramDistinctCountMap = new HashMap<Integer, Long>();
+    private void initialize(final File baseDir) throws NumberFormatException, IOException
+    {
+        indexMap = new HashMap<Integer, FileMap>();
+        ngramCountMap = new HashMap<Integer, Long>();
+        ngramDistinctCountMap = new HashMap<Integer, Long>();
 
-		final File countFile = new File(baseDir, JWeb1TAggregator.AGGREGATED_COUNTS_FILE);
-		if (countFile.exists()) {
-			final LineNumberReader lineReader = new LineNumberReader(new FileReader(countFile));
-			String line;
-			while ((line = lineReader.readLine()) != null) {
-				final String[] parts = line.split("\t");
+        final File countFile = new File(baseDir, JWeb1TAggregator.AGGREGATED_COUNTS_FILE);
+        if (countFile.exists()) {
+            try (LineNumberReader lineReader = new LineNumberReader(
+                    new InputStreamReader(new FileInputStream(countFile), Constants.ENCODING))) {
+                String line;
+                while ((line = lineReader.readLine()) != null) {
+                    final String[] parts = line.split("\t");
 
-				if (parts.length != 3) {
-					continue;
-				}
+                    if (parts.length != 3) {
+                        continue;
+                    }
 
-				final int ngramSize = Integer.valueOf(parts[0]);
-				final long ngramDistinctCount = Long.valueOf(parts[1]);
-				final long ngramCount = Long.valueOf(parts[2]);
+                    final int ngramSize = Integer.valueOf(parts[0]);
+                    final long ngramDistinctCount = Long.valueOf(parts[1]);
+                    final long ngramCount = Long.valueOf(parts[2]);
 
-				ngramCountMap.put(ngramSize, ngramCount);
-				ngramDistinctCountMap.put(ngramSize, ngramDistinctCount);
-			}
-			lineReader.close();
-		}
-
-	}
+                    ngramCountMap.put(ngramSize, ngramCount);
+                    ngramDistinctCountMap.put(ngramSize, ngramDistinctCount);
+                }
+            }
+        }
+    }
 
 	private void addToIndexMap(final File indexFile, final int level)
 		throws IOException
@@ -123,12 +123,14 @@ public class JWeb1TSearcher
 		indexMap.put(level, new FileMap(indexFile));
 	}
 
+    @Override
     public long getFrequency(final Collection<String> aPhrase)
         throws IOException
     {
         return getFrequency(StringUtils.join(aPhrase, " "));
     }
     
+    @Override
     public long getFrequency(final String... aPhrase)
         throws IOException
     {
@@ -199,13 +201,15 @@ public class JWeb1TSearcher
 		return 0;
     }
 	
-	public long getNrOfNgrams(final int aNGramSize)
+	@Override
+    public long getNrOfNgrams(final int aNGramSize)
 	{
 		final Long count = ngramCountMap.get(aNGramSize);
 		return count == null ? -1 : count;
 	}
 
-	public long getNrOfDistinctNgrams(final int aNGramSize)
+	@Override
+    public long getNrOfDistinctNgrams(final int aNGramSize)
 	{
 		final Long count = ngramDistinctCountMap.get(aNGramSize);
 		return count == null ? -1 : count;

@@ -17,17 +17,18 @@
 package com.googlecode.jweb1t;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -79,63 +80,51 @@ public class IndexCreator
 		write(indexFile);
 	}
 
-	private void write(final File outputFile)
-		throws IOException
-	{
-		PrintWriter writer = null;
+    private void write(final File outputFile) throws IOException
+    {
+        try (PrintWriter writer = new PrintWriter(
+                new OutputStreamWriter(new FileOutputStream(outputFile), Constants.ENCODING))) {
+            for (final String ch : map.keySet()) {
+                final List<File> fileList = map.get(ch);
+                writer.print(ch);
+                for (final File file : fileList) {
+                    // store only the path relative to the index file
+                    final String relative = baseDir.toURI().relativize(file.toURI()).getPath();
+                    writer.print("\t" + relative);
+                }
+                writer.print("\n");
+            }
+            writer.flush();
+        }
+    }
 
-		try {
-			writer = new PrintWriter(new FileWriter(outputFile));
+    private void read(final File aFile) throws IOException
+    {
+        try (LineNumberReader reader = new LineNumberReader(
+                new InputStreamReader(new FileInputStream(aFile), Constants.ENCODING))) {
+            String line = null;
+            String ch = null;
 
-			for (final String ch : map.keySet()) {
-				final List<File> fileList = map.get(ch);
-				writer.print(ch);
-				for (final File file : fileList) {
-					// store only the path relative to the index file
-					final String relative = baseDir.toURI().relativize(file.toURI()).getPath();
-					writer.print("\t" + relative);
-				}
-				writer.print("\n");
-			}
-			writer.flush();
-		}
-		finally {
-			IOUtils.closeQuietly(writer);
-		}
-	}
+            // first line
+            if ((line = reader.readLine()) != null) {
+                ch = line.substring(0, 2).trim();
+            }
 
-	private void read(final File aFile)
-		throws IOException
-	{
-		LineNumberReader reader = null;
-		try {
-			reader = new LineNumberReader(new FileReader(aFile));
-			String line = null;
-			String ch = null;
+            String old = ch;
 
-			// first line
-			if ((line = reader.readLine()) != null) {
-				ch = line.substring(0, 2).trim();
-			}
+            // second line
+            while ((line = reader.readLine()) != null) {
+                ch = line.substring(0, 2).trim();
 
-			String old = ch;
+                if (!ch.equals(old)) {
+                    put(old, aFile);
+                    old = ch;
+                }
+            }
 
-			// second line
-			while ((line = reader.readLine()) != null) {
-				ch = line.substring(0, 2).trim();
-
-				if (!ch.equals(old)) {
-					put(old, aFile);
-					old = ch;
-				}
-			}
-
-			put(old, aFile);
-		}
-		finally {
-			IOUtils.closeQuietly(reader);
-		}
-	}
+            put(old, aFile);
+        }
+    }
 
 	private void put(final String ch, final File aFile)
 	{

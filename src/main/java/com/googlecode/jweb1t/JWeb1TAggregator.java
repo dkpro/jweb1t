@@ -18,11 +18,10 @@
 package com.googlecode.jweb1t;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-
-import org.apache.commons.io.IOUtils;
 
 /**
  * Creates some aggregated counts that are not directly available in the data.
@@ -41,33 +40,27 @@ public class JWeb1TAggregator
 		maxNgramSize = aMaxNGramSize;
 	}
 
-	/**
-	 * Run this method to create the counts.
-	 * 
-	 * @throws IOException
-	 */
-	public void create()
-		throws IOException
-	{
-		PrintWriter writer = null;
-
-		try {
-			writer = new PrintWriter(new FileWriter(new File(ngramLocation, AGGREGATED_COUNTS_FILE)));
-
-			for (int i = 1; i <= maxNgramSize; i++) {
-				final AggregatedCountsCreator counter = new AggregatedCountsCreator(new File(
-						ngramLocation), Integer.toString(i));
-				writer.print(i);
-				writer.print("\t");
-				writer.print(counter.getNrOfDifferentNGrams());
-				writer.print("\t");
-				writer.print(counter.getAggregatedNGramCount());
-				writer.print("\n");
-			}
-			writer.flush();
-		}
-		finally {
-			IOUtils.closeQuietly(writer);
-		}
-	}
+    /**
+     * Run this method to create the counts.
+     * 
+     * @throws IOException
+     */
+    public void create() throws IOException
+    {
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(new File(ngramLocation, AGGREGATED_COUNTS_FILE)),
+                Constants.ENCODING))) {
+            for (int i = 1; i <= maxNgramSize; i++) {
+                final AggregatedCountsCreator counter = new AggregatedCountsCreator(
+                        new File(ngramLocation), Integer.toString(i));
+                writer.print(i);
+                writer.print("\t");
+                writer.print(counter.getNrOfDifferentNGrams());
+                writer.print("\t");
+                writer.print(counter.getAggregatedNGramCount());
+                writer.print("\n");
+            }
+            writer.flush();
+        }
+    }
 }

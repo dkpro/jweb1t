@@ -18,14 +18,13 @@
 package com.googlecode.jweb1t;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-
 
 /**
  * Class that sequentially scans all Web1T-format files in order to compute the aggregated counts.
- *
  */
 public class AggregatedCountsCreator
 {
@@ -55,24 +54,24 @@ public class AggregatedCountsCreator
 		}
 	}
 	
-	private void read(final File aFile)
-	    throws IOException
-	{
-		final LineNumberReader reader = new LineNumberReader(new FileReader(aFile));
-		String line;
-		while ((line = reader.readLine()) != null) {
-		    final String[] parts = line.split("\t");
-		    
-		    if (parts.length != 2) {
-		        continue;
-		    }
-		    
-		    nrOfDifferentNGrams++;
-		    
-		    aggregatedNGramCount += Long.valueOf(parts[1]); 
-		}
-		reader.close();
-	}
+    private void read(final File aFile) throws IOException
+    {
+        try (LineNumberReader reader = new LineNumberReader(
+                new InputStreamReader(new FileInputStream(aFile), Constants.ENCODING))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                final String[] parts = line.split("\t");
+
+                if (parts.length != 2) {
+                    continue;
+                }
+
+                nrOfDifferentNGrams++;
+
+                aggregatedNGramCount += Long.valueOf(parts[1]);
+            }
+        }
+    }
 
     public long getAggregatedNGramCount()
     {

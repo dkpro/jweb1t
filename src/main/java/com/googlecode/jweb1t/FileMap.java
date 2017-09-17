@@ -16,13 +16,13 @@
 package com.googlecode.jweb1t;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -47,32 +47,27 @@ public class FileMap
 		read(aIndexFile);
 	}
 
-	private void read(final File aFile)
-		throws IOException
-	{
-		LineNumberReader reader = null;
-		try {
-			reader = new LineNumberReader(new FileReader(aFile));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				if (line.length() > 0) {
-					final String[] s = line.split("\t");
-					final String[] t = new String[s.length - 1];
-					System.arraycopy(s, 1, t, 0, t.length);
-	
-					// get absolute path for stored relative path
-					for (int i = 0; i < t.length; i++) {
-						t[i] = new File(indexFile.getParent(), t[i]).getAbsolutePath();
-					}
-	
-					map.put(s[0], t);
-				}
-			}
-		}
-		finally {
-			IOUtils.closeQuietly(reader);
-		}
-	}
+    private void read(final File aFile) throws IOException
+    {
+        try (LineNumberReader reader = new LineNumberReader(
+                new InputStreamReader(new FileInputStream(aFile), Constants.ENCODING))) {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (line.length() > 0) {
+                    final String[] s = line.split("\t");
+                    final String[] t = new String[s.length - 1];
+                    System.arraycopy(s, 1, t, 0, t.length);
+
+                    // get absolute path for stored relative path
+                    for (int i = 0; i < t.length; i++) {
+                        t[i] = new File(indexFile.getParent(), t[i]).getAbsolutePath();
+                    }
+
+                    map.put(s[0], t);
+                }
+            }
+        }
+    }
 
 	public String[] get(final String ch)
 	{

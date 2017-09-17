@@ -18,11 +18,14 @@
 package com.googlecode.jweb1t.util;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.util.Iterator;
 import java.util.Queue;
+
+import com.googlecode.jweb1t.Constants;
 
 public class NGramIterator
     implements Iterator<String>
@@ -35,13 +38,15 @@ public class NGramIterator
         this.ngramFiles = ngramFiles;
         
         if (ngramFiles.size() > 0) {
-            this.reader = new LineNumberReader(new FileReader(ngramFiles.poll()));
+            reader = new LineNumberReader(new InputStreamReader(
+                    new FileInputStream(ngramFiles.poll()), Constants.ENCODING));
         }
         else {
             throw new IOException("Filelist is empty.");
         }        
     }
     
+    @Override
     public boolean hasNext()
     {
         // prefatch the next string
@@ -55,6 +60,7 @@ public class NGramIterator
         }
     }
 
+    @Override
     public String next()
     {
         if (storedNextString == null) {
@@ -67,6 +73,7 @@ public class NGramIterator
         }
     }
 
+    @Override
     public void remove()
     {
         throw new UnsupportedOperationException();
@@ -96,7 +103,8 @@ public class NGramIterator
             else {
                 reader.close();
                 if (!ngramFiles.isEmpty()) {
-                    reader = new LineNumberReader(new FileReader(ngramFiles.poll()));
+                    reader = new LineNumberReader(new InputStreamReader(
+                            new FileInputStream(ngramFiles.poll()), Constants.ENCODING));
                     nextString = getNextString();
                 }
             }
